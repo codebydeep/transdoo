@@ -4,6 +4,7 @@ import { auth } from "./auth.js";
 import { pool } from "./db.js";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import { getMigrations } from "better-auth/db/migration";
+import { runMigrations } from "./models/index.js";
 
 const app = express();
 
@@ -51,7 +52,8 @@ const PORT = process.env.PORT || 8000;
 
 async function startServer() {
   try {
-    const { runMigrations } = await getMigrations(auth.options);
+    const { runMigrations: runAuthMigrations } = await getMigrations(auth.options);
+    await runAuthMigrations();
     await runMigrations();
 
     const connection = await pool.getConnection();
