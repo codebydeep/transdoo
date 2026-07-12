@@ -10,7 +10,7 @@ export const DriverModel = {
         license_expiry   DATE          NOT NULL,
         phone            VARCHAR(20)   NOT NULL,
         status           ENUM('available', 'on_trip', 'off_duty', 'suspended') NOT NULL DEFAULT 'available',
-        safety_score     DECIMAL(4,2)  NOT NULL DEFAULT 100.00 COMMENT 'Score out of 100',
+        safety_score     DECIMAL(4,2)  NOT NULL DEFAULT (100.00) COMMENT 'Score out of 100',
         created_at       TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at       TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)

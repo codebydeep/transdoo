@@ -20,93 +20,86 @@ const Navbar = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full border-b border-gray-100 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 md:px-10 lg:px-8">
+        {/* Logo */}
         <div className="flex-1">
-          <span className="cursive text-2xl font-extrabold">Launchpad</span>
+          <span className="manrope text-xl font-extrabold tracking-tight text-black">TransDOO</span>
         </div>
 
-        <div className="hidden flex-1 items-center justify-center gap-6 md:flex">
-
+        {/* Nav links */}
+        <div className="hidden flex-1 items-center justify-center gap-7 md:flex">
           <NavLink
             to={"/startups"}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-[#e86100]"
-                : "text-gray-400 hover:text-[#d7742d]"
+                ? "text-sm font-semibold text-black"
+                : "text-sm text-gray-500 transition-colors hover:text-black"
             }
-          >Startups</NavLink>
+          >Vehicles</NavLink>
           <NavLink
-            to={"/jobs"}
+            to={"/drivers"}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-[#e86100]"
-                : "text-gray-400 hover:text-[#d7742d]"
+                ? "text-sm font-semibold text-black"
+                : "text-sm text-gray-500 transition-colors hover:text-black"
             }
-          >Internships</NavLink>
+          >Drivers</NavLink>
           <NavLink
-            to={"/jobs"}
+            to={"/trips"}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-[#e86100]"
-                : "text-gray-400 hover:text-[#d7742d]"
+                ? "text-sm font-semibold text-black"
+                : "text-sm text-gray-500 transition-colors hover:text-black"
             }
-          >Interview</NavLink>
+          >Trips</NavLink>
           <NavLink
-            to={"/jobs"}
+            to={"/reports"}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-[#e86100]"
-                : "text-gray-400 hover:text-[#d7742d]"
+                ? "text-sm font-semibold text-black"
+                : "text-sm text-gray-500 transition-colors hover:text-black"
             }
-          >Blogs</NavLink>
+          >Reports</NavLink>
           <NavLink
-            to={"/jobs"}
+            to={"/about"}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-[#e86100]"
-                : "text-gray-400 hover:text-[#d7742d]"
+                ? "text-sm font-semibold text-black"
+                : "text-sm text-gray-500 transition-colors hover:text-black"
             }
-          >Resume</NavLink>
+          >About</NavLink>
         </div>
 
-        <div className="flex flex-1 justify-end">
+        {/* Auth button */}
+        <div className="flex flex-1 items-center justify-end gap-3">
           {authUser ? (
-            <div className="flex gap-3">
-              <Button
-                variant="outline"
-                className="text-md cursor-pointer rounded-lg border border-white/10 bg-transparent px-6 py-5 font-medium text-white transition-colors duration-200 hover:bg-white hover:text-black"
-                onClick={handleSignout}
-              >
-                Sign out
-              </Button>
-              <Button
-                className="text-md cursor-pointer rounded-lg border-none bg-[#e86100] px-6 py-5 font-medium text-white transition-colors duration-200 hover:bg-white hover:text-black"
-                onClick={() => navigate("/register")}
-              >
-                Register
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              className="cursor-pointer rounded-full border border-gray-200 bg-white px-5 py-2 text-sm font-medium text-black transition-colors duration-200 hover:bg-black hover:text-white"
+              onClick={handleSignout}
+            >
+              Logout
+            </Button>
           ) : (
-            <div className="flex gap-3">
-              <Button
-                variant="outline"
-                className="text-md cursor-pointer rounded-lg border border-white/10 bg-transparent px-6 py-5 font-medium text-white transition-colors duration-200 hover:bg-white hover:text-black"
+            <>
+              <button
+                className="text-sm font-medium text-gray-600 transition-colors hover:text-black"
                 onClick={() => navigate("/login")}
               >
                 Sign in
-              </Button>
+              </button>
               <Button
-                className="text-md cursor-pointer rounded-lg border-none bg-[#e86100] px-6 py-5 font-medium text-white transition-colors duration-200 hover:bg-white hover:text-black"
+                variant="outline"
+                className="cursor-pointer rounded-full border-0 bg-black px-5 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-gray-800"
                 onClick={() => navigate("/register")}
               >
-                Register
+                Get started
               </Button>
-            </div>
+            </>
           )}
         </div>
       </div>
-      <div className="mx-auto max-w-7xl border-t border-gray-200 px-4 sm:px-6 md:px-10 lg:px-8 dark:border-zinc-800"></div>
     </div>
   )
 }

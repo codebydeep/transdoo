@@ -16,7 +16,6 @@ export {
   ExpenseModel,
 };
 
-// Run in FK-safe order: users → vehicles/drivers → trips → logs
 export async function runMigrations() {
   await UserModel.createTable();
   await VehicleModel.createTable();

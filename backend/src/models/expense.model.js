@@ -79,9 +79,9 @@ export const ExpenseModel = {
     const conditions = [];
     const params = [];
 
-    if (vehicle_id) { conditions.push("vehicle_id = ?");      params.push(vehicle_id); }
-    if (from)       { conditions.push("expense_date >= ?");    params.push(from); }
-    if (to)         { conditions.push("expense_date <= ?");    params.push(to); }
+    if (vehicle_id) { conditions.push("vehicle_id = ?");   params.push(vehicle_id); }
+    if (from)       { conditions.push("expense_date >= ?"); params.push(from); }
+    if (to)         { conditions.push("expense_date <= ?"); params.push(to); }
 
     const where = conditions.length ? "WHERE " + conditions.join(" AND ") : "";
     const [rows] = await pool.execute(
