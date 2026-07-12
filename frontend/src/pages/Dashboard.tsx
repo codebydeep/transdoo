@@ -109,7 +109,7 @@ export default function Dashboard() {
         <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
           <p className="mb-5 text-sm font-semibold text-foreground">Vehicle Status</p>
           <div className="space-y-4">
-            {vehicleStatus.map(({ label, value, pct, color }) => (
+            {vehicleStatus.map(({ label, pct, color }) => (
               <div key={label}>
                 <div className="mb-1.5 flex items-center justify-between">
                   <span className="text-sm text-foreground">{label}</span>

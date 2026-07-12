@@ -34,7 +34,9 @@ const Login = () => {
 
   const [email,    setEmail]    = useState("")
   const [password, setPassword] = useState("")
-  const [role,     setRole]     = useState("dispatcher")
+  const [role, setRole] = useState("dispatcher")
+
+  const handleRoleChange = (val: string) => setRole(val ?? "dispatcher")
   const [remember, setRemember] = useState(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -155,7 +157,7 @@ const Login = () => {
 
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Role</Label>
-              <Select value={role} onValueChange={setRole}>
+              <Select value={role} onValueChange={handleRoleChange}>
                 <SelectTrigger className="border-border bg-card focus:ring-[#e07b00]">
                   <SelectValue />
                 </SelectTrigger>

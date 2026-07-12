@@ -33,7 +33,7 @@ const features = [
 
 const Landing = () => {
   const { theme, toggleTheme } = useThemeStore()
-  const footerRef = useRef<HTMLElement>(null)
+  const footerRef = useRef<HTMLElement | null>(null)
 
   const scrollToFooter = (e: React.MouseEvent) => {
     e.preventDefault()

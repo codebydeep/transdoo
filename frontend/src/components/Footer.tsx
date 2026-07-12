@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NavLink } from "react-router-dom"
 
-export default function Footer({ footerRef }: { footerRef?: React.RefObject<HTMLElement> }) {
+export default function Footer({ footerRef }: { footerRef?: React.RefObject<HTMLElement | null> }) {
   const [email, setEmail] = useState("")
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
