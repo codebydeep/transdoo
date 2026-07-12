@@ -36,7 +36,7 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [role, setRole] = useState("dispatcher")
 
-  const handleRoleChange = (val: string) => setRole(val ?? "dispatcher")
+  const handleRoleChange = (val: string | null) => setRole(val ?? "dispatcher")
   const [remember, setRemember] = useState(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
