@@ -6,7 +6,6 @@ export default function Footer({ footerRef }: { footerRef?: React.RefObject<HTML
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log("Newsletter signup:", email)
     setEmail("")
   }
 

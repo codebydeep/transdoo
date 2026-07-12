@@ -105,8 +105,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center gap-3">
             <span className="text-sm text-muted-foreground">{authUser?.name ?? "User"}</span>
-            <span className="rounded-full bg-[#e07b00]/15 px-2.5 py-0.5 text-xs font-semibold text-[#e07b00]">
-              Dispatcher
+            <span className="rounded-full bg-[#e07b00]/15 px-2.5 py-0.5 text-xs font-semibold text-[#e07b00] capitalize">
+              {authUser?.role ?? "user"}
             </span>
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#3b7fd4] text-xs font-bold text-white ring-2 ring-[#3b7fd4]/30">
               {initials}
