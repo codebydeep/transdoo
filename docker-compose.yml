@@ -7,9 +7,9 @@ services:
       MYSQL_ROOT_PASSWORD: transdoo123
       MYSQL_DATABASE: transdoo
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
-      - transdoo-mysql-data:/var/lib/mysql
+      - transdoo-mysql-data-v2:/var/lib/mysql
 
 volumes:
-  transdoo-mysql-data:
+  transdoo-mysql-data-v2:

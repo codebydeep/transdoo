@@ -1,7 +1,12 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import mysql from "mysql2/promise";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+const currentDir = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: resolve(currentDir, "..", ".env") });
 
 const app = express();
 
