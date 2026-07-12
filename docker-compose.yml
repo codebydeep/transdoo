@@ -3,6 +3,8 @@ services:
   db:
     image: mysql:8.0
     restart: unless-stopped
+    networks:
+      - backend_net
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -20,6 +22,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     restart: unless-stopped
+    networks:
+      - backend_net
+      - frontend_net
     depends_on:
       db:
         condition: service_healthy
@@ -50,6 +55,8 @@ services:
       args:
         VITE_API_URL: ""
     restart: unless-stopped
+    networks:
+      - frontend_net
     depends_on:
       backend:
         condition: service_healthy
@@ -58,3 +65,9 @@ services:
 
 volumes:
   db_data:
+
+networks:
+  backend_net:
+    driver: bridge
+  frontend_net:
+    driver: bridge
