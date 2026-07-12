@@ -1,68 +1,99 @@
 import { useState, type FormEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../stores/authStore"
+import { useThemeStore } from "../stores/themeStore"
+import { Input } from "../components/ui/input"
+import { Button } from "../components/ui/button"
+import { Label } from "../components/ui/label"
+import { Truck, Sun, Moon } from "lucide-react"
 
 const Register = () => {
   const navigate = useNavigate()
-  const register = useAuthStore((state) => state.register)
-  const loading = useAuthStore((state) => state.loading)
-  const error = useAuthStore((state) => state.error)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const register = useAuthStore((s) => s.register)
+  const loading  = useAuthStore((s) => s.loading)
+  const error    = useAuthStore((s) => s.error)
+  const { theme, toggleTheme } = useThemeStore()
+
+  const [name,     setName]     = useState("")
+  const [email,    setEmail]    = useState("")
   const [password, setPassword] = useState("")
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const success = await register(name, email, password)
-
-    if (success) {
-      navigate("/", { replace: true })
-    }
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const ok = await register(name, email, password)
+    if (ok) navigate("/dashboard", { replace: true })
   }
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md items-center px-4 py-10">
-      <div className="w-full rounded-3xl border border-white/10 bg-[#111111] p-8 shadow-2xl shadow-black/30">
-        <h1 className="text-3xl font-semibold text-white">Create account</h1>
-        <p className="mt-2 text-sm text-gray-400">Register a TransDoo account to get started.</p>
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 relative">
+      <button
+        onClick={toggleTheme}
+        className="absolute top-5 right-5 rounded-lg border border-border bg-card p-2 text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      </button>
 
-        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-          <input
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition focus:border-[#e86100]"
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-          <input
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition focus:border-[#e86100]"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <input
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition focus:border-[#e86100]"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
+      <div className="w-full max-w-sm">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#e07b00] shadow-lg shadow-[#e07b00]/30 mb-4">
+            <Truck className="h-6 w-6 text-white" />
+          </div>
+          <span className="text-2xl font-black tracking-tight text-foreground">TransDOO</span>
+          <h1 className="mt-2 text-xl font-bold text-foreground">Create your account</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Start managing your fleet in minutes.</p>
+        </div>
 
-          {error ? <p className="text-sm text-red-400">{error}</p> : null}
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Full Name</Label>
+            <Input
+              type="text"
+              placeholder="Raven Kumar"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="border-border bg-card focus-visible:ring-[#e07b00] focus-visible:border-[#e07b00]"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</Label>
+            <Input
+              type="email"
+              placeholder="you@transdoo.in"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="border-border bg-card focus-visible:ring-[#e07b00] focus-visible:border-[#e07b00]"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Password</Label>
+            <Input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="border-border bg-card focus-visible:ring-[#e07b00] focus-visible:border-[#e07b00]"
+            />
+          </div>
 
-          <button
-            className="w-full rounded-xl bg-[#e86100] px-4 py-3 font-medium text-white transition hover:bg-[#ff7a1a] disabled:cursor-not-allowed disabled:opacity-70"
+          {error && <p className="text-sm text-destructive">{error}</p>}
+
+          <Button
             type="submit"
             disabled={loading}
+            className="w-full bg-[#e07b00] hover:bg-[#c96d00] text-white font-semibold py-5 shadow-lg shadow-[#e07b00]/20"
           >
-            {loading ? "Creating account..." : "Register"}
-          </button>
+            {loading ? "Creating account..." : "Create account"}
+          </Button>
         </form>
 
-        <p className="mt-6 text-sm text-gray-400">
-          Already have an account? <Link className="text-[#ff8b3d]" to="/login">Sign in</Link>
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link to="/login" className="font-semibold text-[#e07b00] hover:underline">
+            Sign in
+          </Link>
         </p>
       </div>
     </div>

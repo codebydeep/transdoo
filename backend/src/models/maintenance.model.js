@@ -9,7 +9,7 @@ export const MaintenanceModel = {
         reported_by   VARCHAR(36)   NOT NULL,
         type          ENUM('scheduled', 'breakdown', 'accident', 'inspection') NOT NULL,
         description   TEXT          NOT NULL,
-        cost          DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+        cost          DECIMAL(10,2) NOT NULL DEFAULT (0.00),
         status        ENUM('open', 'in_progress', 'closed') NOT NULL DEFAULT 'open',
         started_at    TIMESTAMP     NULL,
         closed_at     TIMESTAMP     NULL,
