@@ -1,28 +1,46 @@
-import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import mysql from "mysql2/promise";
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
-
-const currentDir = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: resolve(currentDir, "..", ".env") });
+import { auth } from "./auth.js";
+import { pool } from "./db.js";
+import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
+import { getMigrations } from "better-auth/db/migration";
 
 const app = express();
 
-app.use(cors({ origin: process.env.CORS_ORIGIN || "*" }));
+const allowedOrigins = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        callback(null, origin || false);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  }),
+);
+
+app.all("/api/auth/*splat", toNodeHandler(auth));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-export const pool = mysql.createPool({
-  host: process.env.DB_HOST || "localhost",
-  port: Number(process.env.DB_PORT) || 3306,
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+app.get("/api/me", async (req, res) => {
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+
+  if (!session) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  return res.json(session);
 });
 
 app.get("/health", (_req, res) => {
@@ -33,6 +51,9 @@ const PORT = process.env.PORT || 8000;
 
 async function startServer() {
   try {
+    const { runMigrations } = await getMigrations(auth.options);
+    await runMigrations();
+
     const connection = await pool.getConnection();
     console.log(`✅  MySQL connected — database: ${process.env.DB_NAME}`);
     connection.release();
