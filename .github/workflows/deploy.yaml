@@ -14,6 +14,9 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
 
+    outputs:
+      ec2_host: ${{ steps.ec2_host.outputs.host }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
