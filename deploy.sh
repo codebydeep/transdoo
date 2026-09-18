@@ -50,7 +50,7 @@ fi
 if docker compose version >/dev/null 2>&1; then
     echo "Docker Compose is available"
 else
-    echo "Installing Docker Compose..."
+    echo "Installing Docker Compose"
 
     sudo apt-get update -y
     sudo apt-get install -y docker-compose-plugin
@@ -61,7 +61,7 @@ fi
 if command -v git >/dev/null 2>&1; then
     echo "Git is already installed"
 else
-    echo "Installing Git..."
+    echo "Installing Git"
 
     sudo apt-get install -y git
 
@@ -71,24 +71,16 @@ fi
 sudo systemctl enable docker
 sudo systemctl start docker
 
-if groups "$APP_USER" | grep -q "\bdocker\b"; then
-    echo "✅ $APP_USER is already in docker group"
-else
-    sudo usermod -aG docker "$APP_USER"
-    echo "✅ $APP_USER added to docker group"
-fi
-
 if [ -d "$APP_DIR/.git" ]; then
-    echo "📥 Application already exists"
+    echo "Application already exists"
 
     cd "$APP_DIR"
 
     sudo -u "$APP_USER" git fetch origin
     sudo -u "$APP_USER" git checkout "$BRANCH"
     sudo -u "$APP_USER" git reset --hard "origin/$BRANCH"
-
 else
-    echo "📥 Cloning application..."
+    echo "Cloning application"
 
     sudo -u "$APP_USER" git clone \
         --branch "$BRANCH" \
@@ -98,10 +90,10 @@ else
     cd "$APP_DIR"
 fi
 
-echo "🐳 Docker version:"
+echo "Docker version:"
 sudo docker --version
 
-echo "🐳 Docker Compose version:"
+echo "Docker Compose version:"
 sudo docker compose version
 
 cd "$APP_DIR"
