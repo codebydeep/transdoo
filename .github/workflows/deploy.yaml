@@ -91,12 +91,20 @@ jobs:
 
       - name: Deploy Application to EC2
         uses: appleboy/ssh-action@v1.2.2
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: transdoo
+          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          CORS_ORIGIN: http://${{ needs.terraform.outputs.ec2_host }}:3000
+          VITE_API_URL: http://${{ needs.terraform.outputs.ec2_host }}:8000
         with:
           host: ${{ needs.terraform.outputs.ec2_host }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           command_timeout: 10m
+          envs: DB_PASSWORD,DB_NAME,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,CORS_ORIGIN,VITE_API_URL
           script: |
             cd /home/ubuntu
             chmod +x deploy.sh

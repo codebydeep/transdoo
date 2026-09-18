@@ -104,6 +104,25 @@ sudo docker compose version
 
 cd "$APP_DIR"
 
+required_variables=(DB_PASSWORD DB_NAME JWT_ACCESS_SECRET JWT_REFRESH_SECRET CORS_ORIGIN VITE_API_URL)
+for variable in "${required_variables[@]}"; do
+    if [ -z "${!variable:-}" ]; then
+        echo "Required deployment variable $variable is not set"
+        exit 1
+    fi
+done
+
+umask 077
+cat > "$APP_DIR/.env" <<EOF
+DB_PASSWORD=$DB_PASSWORD
+DB_NAME=$DB_NAME
+JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET
+JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET
+CORS_ORIGIN=$CORS_ORIGIN
+VITE_API_URL=$VITE_API_URL
+FRONTEND_PORT=3000
+EOF
+
 echo "Building and starting containers"
 
 sudo docker compose up --build -d
