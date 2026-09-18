@@ -90,6 +90,12 @@ else
     cd "$APP_DIR"
 fi
 
+echo "Application files:"
+ls -la "$APP_DIR"
+
+echo "Docker Compose file:"
+ls -l "$APP_DIR/docker-compose.yml"
+
 echo "Docker version:"
 sudo docker --version
 
