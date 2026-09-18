@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useThemeStore } from "../stores/themeStore"
 import { Sun, Moon, Truck, BarChart3, Users, Route } from "lucide-react"
 import Footer from "../components/Footer"
+import bgPattern from "../assets/images/bg-pattern.png"
 
 const features = [
   {
@@ -35,14 +36,21 @@ const Landing = () => {
   const { theme, toggleTheme } = useThemeStore()
   const footerRef = useRef<HTMLElement | null>(null)
 
-  const scrollToFooter = (e: React.MouseEvent) => {
-    e.preventDefault()
-    footerRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Navbar — fixed, transparent, floats above content */}
+    <div className="relative min-h-screen bg-background text-foreground">
+
+      {/* Background pattern */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 bg-repeat opacity-[0.04] dark:opacity-[0.06]"
+        style={{
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: "400px",
+        }}
+      />
+      {/* Soft vignette so pattern fades at edges and doesn't compete with content */}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,transparent_60%,hsl(var(--background))_100%)]" />
+
+      {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 sm:px-10
         bg-background/60 backdrop-blur-md border-b border-white/10 dark:border-white/5">
         <div className="flex items-center gap-2.5">
@@ -52,15 +60,7 @@ const Landing = () => {
           <span className="text-lg font-black tracking-tight text-foreground">TransDOO</span>
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* About scrolls to footer */}
-          <button
-            onClick={scrollToFooter}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            About
-          </button>
-
+        <div className="flex items-center gap-3">
           <button
             onClick={toggleTheme}
             className="rounded-lg border border-border bg-background/50 p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -82,7 +82,7 @@ const Landing = () => {
         </div>
       </nav>
 
-      {/* Hero — pt accounts for fixed navbar height */}
+      {/* Hero */}
       <div className="mx-auto flex max-w-5xl flex-col items-center px-4 pb-16 pt-36 text-center sm:px-6">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e07b00]/30 bg-[#e07b00]/10 px-4 py-1.5 text-xs font-semibold text-[#e07b00]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#e07b00]" />
@@ -90,8 +90,10 @@ const Landing = () => {
         </div>
 
         <h1 className="text-5xl font-black leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
-          Control your fleet<br />
-          <span className="text-[#e07b00]">like never before.</span>
+          Effortless 🚚 Fleet<br />
+          Management for 📦<br />
+          <span className="text-[#e07b00]">Transport Operations,</span><br />
+          built for Speed.
         </h1>
 
         <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-lg">
