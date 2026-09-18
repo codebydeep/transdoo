@@ -58,3 +58,28 @@ jobs:
         # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         working-directory: ./terraform
         run: terraform apply -auto-approve -input=false
+
+  deploy:
+    name: Deploy TransDoo to EC2
+    runs-on: ubuntu-latest
+    needs: terraform
+
+    steps:
+
+      - name: Deploy Application to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu
+
+            if [ ! -f deploy.sh ]; then
+              echo "❌ deploy.sh not found"
+              exit 1
+            fi
+
+            chmod +x deploy.sh
+
+            ./deploy.sh
