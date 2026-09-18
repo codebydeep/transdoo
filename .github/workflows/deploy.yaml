@@ -42,31 +42,6 @@ jobs:
         working-directory: ./terraform
         run: terraform init
 
-      - name: Import existing Terraform resources
-        working-directory: ./terraform
-        run: |
-          VPC_ID=$(aws ec2 describe-vpcs \
-            --filters "Name=isDefault,Values=true" \
-            --query "Vpcs[0].VpcId" \
-            --output text)
-
-          SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
-            --filters "Name=group-name,Values=transdoo-ec2" "Name=vpc-id,Values=$VPC_ID" \
-            --query "SecurityGroups[0].GroupId" \
-            --output text)
-
-          if ! terraform state list | grep -qx 'module.ec2.aws_key_pair.ec2_keys'; then
-            terraform import module.ec2.aws_key_pair.ec2_keys ec2_key
-          fi
-
-          if ! terraform state list | grep -qx 'module.ec2.aws_default_vpc.default'; then
-            terraform import module.ec2.aws_default_vpc.default "$VPC_ID"
-          fi
-
-          if ! terraform state list | grep -qx 'module.ec2.aws_security_group.ec2_sg'; then
-            terraform import module.ec2.aws_security_group.ec2_sg "$SECURITY_GROUP_ID"
-          fi
-
       - name: Terraform Format Check
         working-directory: ./terraform
         run: terraform fmt -check
