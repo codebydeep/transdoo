@@ -53,7 +53,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: ${CORS_ORIGIN}
+        VITE_API_URL: ${VITE_API_URL}
     restart: unless-stopped
     networks:
       - frontend_net

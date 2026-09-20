@@ -7,28 +7,27 @@ const api = axios.create({
 })
 
 type AuthUser = {
-  id:    string
-  name:  string
+  id: string
+  name: string
   email: string
-  role:  string
+  role: string
 } | null
 
 type AuthStore = {
   authUser: AuthUser
-  loading:  boolean
-  error:    string | null
+  loading: boolean
+  error: string | null
   initializeAuth: () => Promise<void>
-  login:    (email: string, password: string) => Promise<boolean>
+  login: (email: string, password: string) => Promise<boolean>
   register: (name: string, email: string, password: string) => Promise<boolean>
-  signout:  () => Promise<boolean>
+  signout: () => Promise<boolean>
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
   authUser: null,
-  loading:  false,
-  error:    null,
+  loading: false,
+  error: null,
 
-  // Called once on app mount — restores session from cookie
   initializeAuth: async () => {
     try {
       const { data } = await api.get("/me")
