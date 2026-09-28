@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: back-svc
+  namespace: transdoo-ns
+
+spec:
+ selector:
+  app: tr-back
+
+ ports:
+  - port: 8000
+    targetPort: 8000
+    name: tr-back
